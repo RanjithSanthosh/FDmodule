@@ -1,0 +1,271 @@
+<div class="w-full bg-white shadow-xl rounded-2xl overflow-hidden flex flex-col h-full border border-gray-100">
+    <!-- Header -->
+    <div
+        class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-8 py-5 border-b border-gray-200 flex items-center justify-between z-10 shrink-0">
+        <div>
+            <h2 class="text-2xl font-bold leading-7 tracking-tight">
+                Depositor Profile
+            </h2>
+            <p class="mt-1 text-sm text-slate-300 font-light">
+                Manage customer details and personal information.
+            </p>
+        </div>
+        <div class="flex items-center space-x-3">
+            <!-- Close/Back Button -->
+            <button routerLink="/depositors" class="text-slate-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="flex flex-col flex-1 min-h-0 overflow-hidden" novalidate autocomplete="off">
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                <!-- Left Column: Form Fields -->
+                <div class="lg:col-span-8 space-y-6">
+
+                    <!-- Basic Info Section -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-100 shadow-sm">
+                        <h3
+                            class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4 border-b border-slate-200 pb-2">
+                            Basic Information</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-6">
+                            <div class="sm:col-span-4">
+                                <label for="code" class="block text-sm font-medium text-gray-700 mb-1">Code <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" id="code" name="code" [(ngModel)]="formData.code"
+                                    [class.border-red-300]="errors['code']"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3 bg-white"
+                                    placeholder="e.g. 913">
+                                @if (errors['code']) {
+                                <p class="mt-1 text-xs text-red-600">{{ errors['code'] }}</p>
+                                }
+                            </div>
+                            <div class="sm:col-span-8">
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" id="name" name="name" [(ngModel)]="formData.name"
+                                    [class.border-red-300]="errors['name']"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3 bg-white border border-yellow-300/50"
+                                    placeholder="Full Name"> <!-- Yellow hint from image -->
+                                @if (errors['name']) {
+                                <p class="mt-1 text-xs text-red-600">{{ errors['name'] }}</p>
+                                }
+                            </div>
+
+                            <div class="sm:col-span-8">
+                                <label for="so" class="block text-sm font-medium text-gray-700 mb-1">S/O (Son/Daughter
+                                    of)</label>
+                                <input type="text" id="so" name="so" [(ngModel)]="formData.so"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                            </div>
+                            <div class="sm:col-span-4">
+                                <label for="sex" class="block text-sm font-medium text-gray-700 mb-1">Sex</label>
+                                <select id="sex" name="sex" [(ngModel)]="formData.sex"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                                    @for (option of sexOptions; track option) {
+                                    <option [value]="option">{{ option }}</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Communication Section -->
+                    <div class="bg-yellow-50/30 p-6 rounded-xl border border-yellow-100 shadow-sm relative group">
+                        <div
+                            class="absolute top-0 left-0 bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-br-lg rounded-tl-lg border-b border-r border-yellow-200">
+                            Communication</div>
+
+                        <div class="mt-4 grid grid-cols-1 sm:grid-cols-12 gap-6">
+                            <div class="sm:col-span-12">
+                                <label for="communicationAddress"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                <textarea id="communicationAddress" name="communicationAddress" rows="2"
+                                    [(ngModel)]="formData.communicationAddress"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2 px-3 resize-none"
+                                    placeholder="Enter multiple valid address lines..."></textarea>
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City</label>
+                                <input type="text" id="city" name="city" [(ngModel)]="formData.city"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                            </div>
+                            <div class="sm:col-span-6">
+                                <label for="pinCode" class="block text-sm font-medium text-gray-700 mb-1">Pin
+                                    Code</label>
+                                <input type="text" id="pinCode" name="pinCode" [(ngModel)]="formData.pinCode"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State</label>
+                                <select id="state" name="state" [(ngModel)]="formData.state"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                                    @for (s of stateOptions; track s) {
+                                    <option [value]="s">{{ s }}</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="sm:col-span-6">
+                                <label for="mobile" class="block text-sm font-medium text-gray-700 mb-1">Mobile <span
+                                        class="text-red-500">*</span></label>
+                                <input type="text" id="mobile" name="mobile" [(ngModel)]="formData.mobile"
+                                    [class.border-red-300]="errors['mobile']"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                                @if (errors['mobile']) {
+                                <p class="mt-1 text-xs text-red-600">{{ errors['mobile'] }}</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Other Details -->
+                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-6 p-6">
+
+                        <div class="sm:col-span-6">
+                            <label for="aadharNo" class="block text-sm font-medium text-gray-700 mb-1">Aadhar No</label>
+                            <input type="text" id="aadharNo" name="aadharNo" [(ngModel)]="formData.aadharNo"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                        </div>
+                        <div class="sm:col-span-6">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" id="email" name="email" [(ngModel)]="formData.email"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                        </div>
+
+                        <div class="sm:col-span-12">
+                            <label for="nominee" class="block text-sm font-medium text-gray-700 mb-1">Nominee</label>
+                            <input type="text" id="nominee" name="nominee" [(ngModel)]="formData.nominee"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                        </div>
+
+                        <div class="sm:col-span-6">
+                            <label for="dob" class="block text-sm font-medium text-gray-700 mb-1">DOB</label>
+                            <input type="date" id="dob" name="dob" [(ngModel)]="formData.dob" (change)="calculateAge()"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                            <input type="number" id="age" name="age" [(ngModel)]="formData.age" readonly
+                                class="block w-full rounded-md border-gray-200 bg-gray-50 text-gray-500 shadow-sm sm:text-sm py-2.5 px-3 cursor-not-allowed">
+                        </div>
+
+                        <div class="sm:col-span-12">
+                            <label for="remarks" class="block text-sm font-medium text-gray-700 mb-1">Remarks</label>
+                            <input type="text" id="remarks" name="remarks" [(ngModel)]="formData.remarks"
+                                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3">
+                        </div>
+                        <div class="sm:col-span-4">
+                            <label for="createdDate" class="block text-sm font-medium text-gray-700 mb-1">Created
+                                Date</label>
+                            <input type="date" id="createdDate" name="createdDate" [(ngModel)]="formData.createdDate"
+                                readonly
+                                class="block w-full rounded-md border-gray-200 bg-gray-50 text-gray-500 shadow-sm sm:text-sm py-2.5 px-3 cursor-not-allowed">
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Photo -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 sticky top-0">
+                        <h3 class="text-sm font-bold text-gray-800 uppercase tracking-wider mb-4 text-center">Customer
+                            Photo</h3>
+
+                        <div
+                            class="aspect-square bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center mb-4 group hover:border-indigo-400 transition-colors overflow-hidden relative">
+
+                            <!-- Case 1: Webcam Active (Video) -->
+                            @if (isWebcamActive) {
+                            <video class="w-full h-full object-cover transform scale-x-[-1]" autoplay playsinline
+                                muted></video>
+                            }
+                            <!-- Case 2: Photo Exists (Image) -->
+                            @else if (formData.photoUrl) {
+                            <img [src]="formData.photoUrl" alt="Customer Photo" class="w-full h-full object-cover">
+                            }
+                            <!-- Case 3: Placeholder -->
+                            @else {
+                            <div class="text-center p-4">
+                                <svg class="mx-auto h-12 w-12 text-gray-400 group-hover:text-indigo-500 transition-colors"
+                                    stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path
+                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="mt-2 text-sm text-gray-500">No Photo Selected</div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            @if (!isWebcamActive) {
+                            <button type="button" (click)="startWebcam()"
+                                class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                                Start WebCam
+                            </button>
+                            } @else {
+                            <button type="button" (click)="stopWebcam()"
+                                class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-red-50 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors">
+                                Stop WebCam
+                            </button>
+                            }
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button type="button" (click)="capturePhoto()" [disabled]="!isWebcamActive"
+                                    class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                                    Capture
+                                </button>
+                                <button type="button" (click)="clearPhoto()"
+                                    class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="imageUpload" class="block text-xs font-medium text-gray-500 mb-1">Image
+                                Path</label>
+                            <div class="flex shadow-sm rounded-md h-8"> <!-- Fixed height for alignment -->
+                                <input type="text" readonly
+                                    [value]="selectedFileName || (formData.photoUrl ? 'Current Photo' : 'No file selected')"
+                                    class="block w-full rounded-l-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-xs px-3 bg-gray-50 text-gray-500 truncate h-full">
+                                <input type="file" id="imageUpload" class="hidden" (change)="onFileSelected($event)"
+                                    accept="image/*" #fileInput>
+                                <button type="button" (click)="fileInput.click()"
+                                    class="inline-flex items-center px-4 rounded-r-md border border-l-0 border-gray-300 bg-gray-100 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-xs font-medium transition-colors h-full whitespace-nowrap">
+                                    Browse...
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex-none px-8 py-5 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-4">
+            <button type="button" routerLink="/depositors"
+                class="bg-white py-2.5 px-5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                Cancel
+            </button>
+            <button type="submit"
+                class="inline-flex justify-center py-2.5 px-8 border border-transparent shadow-md text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:scale-105">
+                @if (!isLoading) {
+                <span>Save Reference</span>
+                }
+                @if (isLoading) {
+                <span>Saving...</span>
+                }
+            </button>
+
+        </div>
+    </form>
+</div>

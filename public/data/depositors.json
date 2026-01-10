@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "code": "913",
+        "name": "Ranjith Santhosh",
+        "so": "Santhosh Kumar",
+        "sex": "Male",
+        "communicationAddress": "123, Main Street, Gandhipuram",
+        "city": "Coimbatore",
+        "pinCode": "641012",
+        "state": "Tamil Nadu",
+        "mobile": "9876543210",
+        "aadharNo": "1234 5678 9012",
+        "email": "ranjith@example.com",
+        "nominee": "Santhosh Kumar",
+        "dob": "1990-05-15",
+        "age": 35,
+        "remarks": "Priority Customer",
+        "createdDate": "2026-01-10T10:00:00",
+        "photoUrl": "https://randomuser.me/api/portraits/men/32.jpg"
+    },
+    {
+        "id": 2,
+        "code": "914",
+        "name": "Priya Sharma",
+        "so": "Rajesh Sharma",
+        "sex": "Female",
+        "communicationAddress": "45, North Avenue, RS Puram",
+        "city": "Coimbatore",
+        "pinCode": "641002",
+        "state": "Tamil Nadu",
+        "mobile": "8765432109",
+        "aadharNo": "9876 5432 1098",
+        "email": "priya@example.com",
+        "nominee": "Rajesh Sharma",
+        "dob": "1992-08-20",
+        "age": 33,
+        "remarks": "Senior Citizen Scheme Inquiry",
+        "createdDate": "2026-01-11T14:30:00",
+        "photoUrl": "https://randomuser.me/api/portraits/women/44.jpg"
+    }
+]

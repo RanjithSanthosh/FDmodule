@@ -15,6 +15,7 @@ import { Settings } from './components/settings/settings';
 import { SidebarComponent } from './components/sidebar/sidebar';
 import { Closures } from './components/closures/closures';
 import { Closure } from './components/closures/closure/closure';
+import { Depositor } from './components/depositors/depositor/depositor';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', component: LoginComponent },
@@ -29,6 +30,7 @@ export const routes: Routes = [
   { path: 'customer-history', component: CustomerHistory },
   { path: 'deposit-history', component: DepositHistory },
   { path: 'depositors', component: Depositors },
+  { path: 'depositor', component: Depositor },
   { path: 'schemes', component: Schemes },
   { path: 'scheme', component: Scheme },
   { path: 'settings', component: Settings },
