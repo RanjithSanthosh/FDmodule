@@ -34,5 +34,101 @@
         "calcPeriod": "",
         "initialSkipPeriod": "",
         "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    },
+        {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
     }
 ]
