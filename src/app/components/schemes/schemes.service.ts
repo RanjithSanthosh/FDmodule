@@ -17,19 +17,19 @@ export interface DepositScheme {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SchemesService {
   private readonly endpoint = 'schemes.json';
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {}
 
   getAll(searchTerm: string = ''): Observable<DepositScheme[]> {
     return this.api.get<DepositScheme[]>(this.endpoint).pipe(
-      map(records => {
+      map((records) => {
         if (searchTerm) {
           const lowerTerm = searchTerm.toLowerCase();
-          return records.filter(r =>
+          return records.filter((r) =>
             r.schemeName.toLowerCase().includes(lowerTerm)
           );
         }
@@ -39,20 +39,20 @@ export class SchemesService {
   }
 
   getById(id: number): Observable<DepositScheme | undefined> {
-    return this.api.get<DepositScheme[]>(this.endpoint).pipe(
-      map(records => records.find(r => r.id === id))
-    );
+    return this.api
+      .get<DepositScheme[]>(this.endpoint)
+      .pipe(map((records) => records.find((r) => r.id === id)));
   }
 
   create(data: any): Observable<any> {
-    return of(data).pipe(delay(500));
+    return this.api.post<DepositScheme[]>(this.endpoint, data);
   }
 
   update(id: number, data: any): Observable<any> {
-    return of(data).pipe(delay(500));
+    return this.api.put<DepositScheme[]>(`${this.endpoint}/${id}`, data);
   }
 
   delete(id: number): Observable<any> {
-    return of({ success: true }).pipe(delay(500));
+    return this.api.delete<DepositScheme[]>(`${this.endpoint}/${id}`);
   }
 }

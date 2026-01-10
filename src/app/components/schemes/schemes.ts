@@ -14,7 +14,6 @@ import { SchemesService, DepositScheme } from './schemes.service';
   styleUrl: './schemes.css',
 })
 export class Schemes implements OnInit {
-
   // State
   records: DepositScheme[] = [];
   isLoading: boolean = false;
@@ -27,10 +26,7 @@ export class Schemes implements OnInit {
   searchTerm: string = '';
   searchTimeout: any;
 
-  constructor(
-    private service: SchemesService,
-    private router: Router
-  ) { }
+  constructor(private service: SchemesService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -38,8 +34,9 @@ export class Schemes implements OnInit {
 
   loadData(): void {
     this.isLoading = true;
-    this.service.getAll(this.searchTerm)
-      .pipe(finalize(() => this.isLoading = false))
+    this.service
+      .getAll(this.searchTerm)
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (data) => {
           this.records = data;
@@ -48,7 +45,7 @@ export class Schemes implements OnInit {
         error: (err) => {
           console.error('API Error:', err);
           this.records = [];
-        }
+        },
       });
   }
 
@@ -71,7 +68,9 @@ export class Schemes implements OnInit {
   }
 
   onDelete(record: DepositScheme): void {
-    if (confirm(`Are you sure you want to delete Scheme ${record.schemeName}?`)) {
+    if (
+      confirm(`Are you sure you want to delete Scheme ${record.schemeName}?`)
+    ) {
       this.isLoading = true;
       this.service.delete(record.id).subscribe(() => {
         this.loadData();

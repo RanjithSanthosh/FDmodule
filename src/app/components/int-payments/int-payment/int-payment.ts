@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IntPaymentService, InterestPaymentRecord, LoanDetails } from '../int-payments.service';
+import {
+  IntPaymentService,
+  InterestPaymentRecord,
+  LoanDetails,
+} from '../int-payments.service';
 
 interface FormErrors {
   [key: string]: string;
@@ -58,16 +62,20 @@ export class IntPayment implements OnInit {
     private service: IntPaymentService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const id = params['id'];
       if (id) {
         this.isEditMode = true;
         this.loadRecord(+id);
       } else {
-        this.payment.paymentNo = 'IP' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        this.payment.paymentNo =
+          'IP' +
+          Math.floor(Math.random() * 10000)
+            .toString()
+            .padStart(4, '0');
       }
     });
   }
@@ -87,7 +95,7 @@ export class IntPayment implements OnInit {
       error: (err) => {
         console.error('Error loading record', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -120,7 +128,10 @@ export class IntPayment implements OnInit {
       this.errors['depositNo'] = 'Deposit No is required.';
       isValid = false;
     }
-    if (this.payment.interestAmount === null || this.payment.interestAmount <= 0) {
+    if (
+      this.payment.interestAmount === null ||
+      this.payment.interestAmount <= 0
+    ) {
       this.errors['interestAmount'] = 'Valid Interest Amount is required.';
       isValid = false;
     }

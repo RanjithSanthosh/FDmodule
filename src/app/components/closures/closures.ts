@@ -9,12 +9,17 @@ import { finalize } from 'rxjs';
 @Component({
   selector: 'app-closure-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, CurrencyPipe, NgxPaginationModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DatePipe,
+    CurrencyPipe,
+    NgxPaginationModule,
+  ],
   templateUrl: './closures.html',
   styleUrl: './closures.css',
 })
 export class Closures implements OnInit {
-
   // State
   records: ClosureRecord[] = [];
   isLoading: boolean = false;
@@ -27,10 +32,7 @@ export class Closures implements OnInit {
   searchTerm: string = '';
   searchTimeout: any;
 
-  constructor(
-    private closureService: ClosureService,
-    private router: Router
-  ) { }
+  constructor(private closureService: ClosureService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -38,8 +40,9 @@ export class Closures implements OnInit {
 
   loadData(): void {
     this.isLoading = true;
-    this.closureService.getClosures(this.searchTerm)
-      .pipe(finalize(() => this.isLoading = false))
+    this.closureService
+      .getClosures(this.searchTerm)
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (data) => {
           this.records = data;
@@ -48,7 +51,7 @@ export class Closures implements OnInit {
         error: (err) => {
           console.error('API Error:', err);
           this.records = [];
-        }
+        },
       });
   }
 
@@ -71,7 +74,9 @@ export class Closures implements OnInit {
   }
 
   onDelete(record: ClosureRecord): void {
-    if (confirm(`Are you sure you want to delete Payment ${record.paymentNo}?`)) {
+    if (
+      confirm(`Are you sure you want to delete Payment ${record.paymentNo}?`)
+    ) {
       this.isLoading = true;
       this.closureService.deleteClosure(record.id).subscribe(() => {
         this.loadData();

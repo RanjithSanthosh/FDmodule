@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, RouterLink } from "@angular/router";
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { ClosureService, ClosureRecord } from '../closure.service';
 
-interface ClosureFormData extends Omit<ClosureRecord, 'id' | 'interestAmount' | 'nettPayable'> {
-  // Using Omit to ensure compat, adding id optionally for internal tracking if needed
-  id?: number;
-  interestAmount: number | null;
-  nettPayable: number | null;
-}
+// interface ClosureFormData
+//   extends Omit<ClosureRecord, 'id' | 'interestAmount' | 'nettPayable'> {
+//   // Using Omit to ensure compat, adding id optionally for internal tracking if needed
+//   id?: number;
+//   interestAmount: number | null;
+//   nettPayable: number | null;
+// }
+
+interface ClosureFormData extends ClosureRecord {}
 
 interface FormErrors {
   [key: string]: string | null;
@@ -24,6 +27,7 @@ interface FormErrors {
 })
 export class Closure implements OnInit {
   formData: ClosureFormData = {
+    id: 0,
     series: 'FClosure Main',
     paymentNo: '',
     transactionDate: new Date().toISOString().split('T')[0],
@@ -51,10 +55,10 @@ export class Closure implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private closureService: ClosureService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const id = params['id'];
       if (id) {
         this.isEditMode = true;
@@ -62,7 +66,11 @@ export class Closure implements OnInit {
         this.loadRecord(this.recordId);
       } else {
         // Initialize with default values for new record
-        this.formData.paymentNo = 'FC' + Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+        this.formData.paymentNo =
+          'FC' +
+          Math.floor(Math.random() * 10000)
+            .toString()
+            .padStart(4, '0');
       }
     });
 
@@ -78,7 +86,8 @@ export class Closure implements OnInit {
           this.formData = { ...record };
           // Ensure dates are strings for inputs
           if (this.formData.transactionDate) {
-            this.formData.transactionDate = this.formData.transactionDate.split('T')[0];
+            this.formData.transactionDate =
+              this.formData.transactionDate.split('T')[0];
           }
         } else {
           alert('Record not found');
@@ -89,7 +98,7 @@ export class Closure implements OnInit {
       error: (err) => {
         console.error('Error loading record', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -97,18 +106,29 @@ export class Closure implements OnInit {
     this.errors = {};
     let isValid = true;
 
-    const setError = (field: keyof ClosureFormData | string, message: string) => {
+    const setError = (
+      field: keyof ClosureFormData | string,
+      message: string
+    ) => {
       this.errors[field] = message;
       isValid = false;
     };
 
-    if (!this.formData.series?.trim()) setError('series', 'Series is required.');
-    if (!this.formData.paymentNo?.trim()) setError('paymentNo', 'Payment No is required.');
-    if (!this.formData.transactionDate) setError('transactionDate', 'Date is required.');
-    if (!this.formData.partyName?.trim()) setError('partyName', 'Party Name is required.');
-    if (!this.formData.payMode?.trim()) setError('payMode', 'Please select a Pay Mode.');
+    if (!this.formData.series?.trim())
+      setError('series', 'Series is required.');
+    if (!this.formData.paymentNo?.trim())
+      setError('paymentNo', 'Payment No is required.');
+    if (!this.formData.transactionDate)
+      setError('transactionDate', 'Date is required.');
+    if (!this.formData.partyName?.trim())
+      setError('partyName', 'Party Name is required.');
+    if (!this.formData.payMode?.trim())
+      setError('payMode', 'Please select a Pay Mode.');
 
-    if (this.formData.interestAmount === null || this.formData.interestAmount < 0) {
+    if (
+      this.formData.interestAmount === null ||
+      this.formData.interestAmount < 0
+    ) {
       setError('interestAmount', 'Valid Interest Amount is required.');
     }
 
@@ -145,11 +165,13 @@ export class Closure implements OnInit {
     if (this.validateForm()) {
       this.isLoading = true;
       if (this.isEditMode && this.recordId) {
-        this.closureService.updateClosure(this.recordId, this.formData).subscribe(() => {
-          this.isLoading = false;
-          alert('Closure updated successfully!');
-          this.router.navigate(['/closures']);
-        });
+        this.closureService
+          .updateClosure(this.recordId, this.formData)
+          .subscribe(() => {
+            this.isLoading = false;
+            alert('Closure updated successfully!');
+            this.router.navigate(['/closures']);
+          });
       } else {
         this.closureService.createClosure(this.formData).subscribe(() => {
           this.isLoading = false;

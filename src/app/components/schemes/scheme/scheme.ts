@@ -16,7 +16,6 @@ export interface FormErrors {
   styleUrl: './scheme.css',
 })
 export class Scheme implements OnInit {
-
   // --- State ---
   isEditMode: boolean = false;
   isLoading: boolean = false;
@@ -37,7 +36,13 @@ export class Scheme implements OnInit {
 
   // Configuration
   config = {
-    frequencies: ['Monthly', 'Bi Monthly', 'Quarterly', 'Half Yearly', 'Yearly'],
+    frequencies: [
+      'Monthly',
+      'Bi Monthly',
+      'Quarterly',
+      'Half Yearly',
+      'Yearly',
+    ],
     bases: ['Daily', 'Monthly', '365 Days', '360 Days'],
     methods: ['Simple', 'Compound'],
     statuses: ['Active' as const, 'Inactive' as const],
@@ -50,10 +55,10 @@ export class Scheme implements OnInit {
     private service: SchemesService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const id = params['id'];
       if (id) {
         this.isEditMode = true;
@@ -77,7 +82,7 @@ export class Scheme implements OnInit {
       error: (err) => {
         console.error('Error loading record', err);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -93,8 +98,10 @@ export class Scheme implements OnInit {
       isValid = false;
     };
 
-    if (!data.schemeName?.trim()) setError('schemeName', 'Scheme Name is required.');
-    if (!data.period?.trim()) setError('period', 'Period duration is required.');
+    if (!data.schemeName?.trim())
+      setError('schemeName', 'Scheme Name is required.');
+    if (!data.period?.trim())
+      setError('period', 'Period duration is required.');
 
     if (data.rateOfInterest === null || data.rateOfInterest === undefined) {
       setError('rateOfInterest', 'Interest rate is required.');

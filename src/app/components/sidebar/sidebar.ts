@@ -23,7 +23,6 @@ export class SidebarComponent {
     this.loggedin = log.loggedin;
   }
   logout() {
-
     this.log.loggedin = false;
   }
 

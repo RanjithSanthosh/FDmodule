@@ -9,12 +9,17 @@ import { DepositsService, DepositRecord } from './deposits.service';
 @Component({
   selector: 'app-deposits',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, CurrencyPipe, NgxPaginationModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DatePipe,
+    CurrencyPipe,
+    NgxPaginationModule,
+  ],
   templateUrl: './deposits.html',
   styleUrl: './deposits.css',
 })
 export class Deposits implements OnInit {
-
   // State
   records: DepositRecord[] = [];
   isLoading: boolean = false;
@@ -27,10 +32,7 @@ export class Deposits implements OnInit {
   searchTerm: string = '';
   searchTimeout: any;
 
-  constructor(
-    private service: DepositsService,
-    private router: Router
-  ) { }
+  constructor(private service: DepositsService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -38,8 +40,9 @@ export class Deposits implements OnInit {
 
   loadData(): void {
     this.isLoading = true;
-    this.service.getAll(this.searchTerm)
-      .pipe(finalize(() => this.isLoading = false))
+    this.service
+      .getAll(this.searchTerm)
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (data) => {
           this.records = data;
@@ -48,7 +51,7 @@ export class Deposits implements OnInit {
         error: (err) => {
           console.error('API Error:', err);
           this.records = [];
-        }
+        },
       });
   }
 
@@ -71,7 +74,9 @@ export class Deposits implements OnInit {
   }
 
   onDelete(record: DepositRecord): void {
-    if (confirm(`Are you sure you want to delete Deposit ${record.depositNo}?`)) {
+    if (
+      confirm(`Are you sure you want to delete Deposit ${record.depositNo}?`)
+    ) {
       this.isLoading = true;
       this.service.delete(record.id).subscribe(() => {
         this.loadData();

@@ -11,31 +11,32 @@ export interface ClosureRecord {
   depositNo: string;
   partyName: string;
   depScheme: string;
-  interestAmount: number;
+  interestAmount: number| null;
   tdsPercent: number | null;
   oldTdsBalance: number | null;
   addLessMode: string;
-  nettPayable: number;
+  nettPayable: number |null;
   payMode: string;
   remarks: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClosureService {
   private readonly endpoint = 'closures.json';
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {}
 
   getClosures(searchTerm: string = ''): Observable<ClosureRecord[]> {
     return this.api.get<ClosureRecord[]>(this.endpoint).pipe(
-      map(records => {
+      map((records) => {
         if (searchTerm) {
           const lowerTerm = searchTerm.toLowerCase();
-          return records.filter(r =>
-            r.partyName.toLowerCase().includes(lowerTerm) ||
-            r.paymentNo.toLowerCase().includes(lowerTerm)
+          return records.filter(
+            (r) =>
+              r.partyName.toLowerCase().includes(lowerTerm) ||
+              r.paymentNo.toLowerCase().includes(lowerTerm)
           );
         }
         return records;
@@ -44,29 +45,20 @@ export class ClosureService {
   }
 
   getById(id: number): Observable<ClosureRecord | undefined> {
-    return this.api.get<ClosureRecord[]>(this.endpoint).pipe(
-      map(records => records.find(r => r.id === id))
-    );
+    return this.api
+      .get<ClosureRecord[]>(this.endpoint)
+      .pipe(map((records) => records.find((r) => r.id === id)));
   }
 
   createClosure(data: any): Observable<any> {
-    // START SIMULATION
-    return of(data).pipe(delay(500));
-    // END SIMULATION
-    // In real app: return this.api.post(this.endpoint, data);
+    return this.api.post<ClosureRecord[]>(this.endpoint, data);
   }
 
   updateClosure(id: number, data: any): Observable<any> {
-    // START SIMULATION
-    return of(data).pipe(delay(500));
-    // END SIMULATION
-    // In real app: return this.api.put(`${this.endpoint}/${id}`, data);
+    return this.api.put<ClosureRecord[]>(`${this.endpoint}/${id}`, data);
   }
 
   deleteClosure(id: number): Observable<any> {
-    // START SIMULATION
-    return of({ success: true }).pipe(delay(500));
-    // END SIMULATION
-    // In real app: return this.api.delete(`${this.endpoint}/${id}`);
+    return this.api.delete<ClosureRecord[]>(`${this.endpoint}/${id}`);
   }
 }

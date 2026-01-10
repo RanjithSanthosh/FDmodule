@@ -4,17 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { finalize } from 'rxjs';
-import { IntPaymentService, InterestPaymentRecord } from './int-payments.service';
+import {
+  IntPaymentService,
+  InterestPaymentRecord,
+} from './int-payments.service';
 
 @Component({
   selector: 'app-int-payments',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipe, CurrencyPipe, NgxPaginationModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DatePipe,
+    CurrencyPipe,
+    NgxPaginationModule,
+  ],
   templateUrl: './int-payments.html',
   styleUrl: './int-payments.css',
 })
 export class IntPayments implements OnInit {
-
   // State
   records: InterestPaymentRecord[] = [];
   isLoading: boolean = false;
@@ -27,10 +35,7 @@ export class IntPayments implements OnInit {
   searchTerm: string = '';
   searchTimeout: any;
 
-  constructor(
-    private service: IntPaymentService,
-    private router: Router
-  ) { }
+  constructor(private service: IntPaymentService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -38,8 +43,9 @@ export class IntPayments implements OnInit {
 
   loadData(): void {
     this.isLoading = true;
-    this.service.getAll(this.searchTerm)
-      .pipe(finalize(() => this.isLoading = false))
+    this.service
+      .getAll(this.searchTerm)
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (data) => {
           this.records = data;
@@ -48,7 +54,7 @@ export class IntPayments implements OnInit {
         error: (err) => {
           console.error('API Error:', err);
           this.records = [];
-        }
+        },
       });
   }
 
@@ -71,7 +77,9 @@ export class IntPayments implements OnInit {
   }
 
   onDelete(record: InterestPaymentRecord): void {
-    if (confirm(`Are you sure you want to delete Payment ${record.paymentNo}?`)) {
+    if (
+      confirm(`Are you sure you want to delete Payment ${record.paymentNo}?`)
+    ) {
       this.isLoading = true;
       this.service.delete(record.id).subscribe(() => {
         this.loadData();

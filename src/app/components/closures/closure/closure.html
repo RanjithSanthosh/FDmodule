@@ -3,20 +3,21 @@
     class="bg-slate-900 text-white px-8 py-5 border-b border-gray-200 flex-none sm:flex sm:items-center sm:justify-between z-10"
   >
     <div>
-      <h2 class="text-2xl font-bold leading-7 sm:truncate">Financial Closure Entry</h2>
+      <h2 class="text-2xl font-bold leading-7 sm:truncate">
+        Financial Closure Entry
+      </h2>
       <p class="mt-1 text-sm text-gray-500">
         Finalize deposit details and process closing payments.
       </p>
     </div>
-    <!-- <div class="mt-4 sm:mt-0">
-      <span
-        class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
-        >Draft Status</span
-      >
-    </div> -->
   </div>
 
-  <form (ngSubmit)="onSubmit()" class="flex flex-col flex-1 min-h-0" novalidate autocomplete="off">
+  <form
+    (ngSubmit)="onSubmit()"
+    class="flex flex-col flex-1 min-h-0"
+    novalidate
+    autocomplete="off"
+  >
     <div class="flex-1 overflow-y-auto px-8 py-6 space-y-8">
       <div>
         <h3
@@ -26,7 +27,9 @@
         </h3>
         <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-6">
           <div class="sm:col-span-2">
-            <label for="series" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="series"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Series <span class="text-red-500">*</span></label
             >
             <input
@@ -56,7 +59,9 @@
           </div>
 
           <div class="sm:col-span-2">
-            <label for="paymentNo" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="paymentNo"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Payment No <span class="text-red-500">*</span></label
             >
             <input
@@ -74,7 +79,9 @@
           </div>
 
           <div class="sm:col-span-2">
-            <label for="transactionDate" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="transactionDate"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Date <span class="text-red-500">*</span></label
             >
             <input
@@ -87,7 +94,9 @@
             />
 
             @if (errors['transactionDate']) {
-            <p class="mt-2 text-sm text-red-600">{{ errors['transactionDate'] }}</p>
+            <p class="mt-2 text-sm text-red-600">
+              {{ errors['transactionDate'] }}
+            </p>
             }
           </div>
         </div>
@@ -101,7 +110,9 @@
         </h3>
         <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-6">
           <div class="sm:col-span-4">
-            <label for="partyName" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="partyName"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Party Name <span class="text-red-500">*</span></label
             >
             <input
@@ -121,7 +132,9 @@
         </div>
         <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-6 mt-6">
           <div class="sm:col-span-3">
-            <label for="depositNo" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="depositNo"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Deposit No</label
             >
             <input
@@ -133,7 +146,9 @@
             />
           </div>
           <div class="sm:col-span-3">
-            <label for="depScheme" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="depScheme"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Deposit Scheme</label
             >
             <input
@@ -148,14 +163,20 @@
       </div>
 
       <div class="bg-indigo-50/50 p-6 rounded-lg border border-indigo-100">
-        <h3 class="text-lg leading-6 font-medium text-indigo-900 mb-6">Financial Calculations</h3>
+        <h3 class="text-lg leading-6 font-medium text-indigo-900 mb-6">
+          Financial Calculations
+        </h3>
         <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-12">
           <div class="sm:col-span-4">
-            <label for="interestAmount" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="interestAmount"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >Interest Amount <span class="text-red-500">*</span></label
             >
             <div class="relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
                 <span class="text-gray-500 sm:text-sm">₹</span>
               </div>
               <input
@@ -171,12 +192,16 @@
             </div>
 
             @if (errors['interestAmount']) {
-            <p class="mt-2 text-sm text-red-600">{{ errors['interestAmount'] }}</p>
+            <p class="mt-2 text-sm text-red-600">
+              {{ errors['interestAmount'] }}
+            </p>
             }
           </div>
 
           <div class="sm:col-span-3">
-            <label for="tdsPercent" class="block text-sm font-medium text-gray-700 mb-1"
+            <label
+              for="tdsPercent"
+              class="block text-sm font-medium text-gray-700 mb-1"
               >TDS %</label
             >
             <div class="relative rounded-md shadow-sm">
@@ -190,7 +215,9 @@
                 [class.border-red-300]="errors['tdsPercent']"
                 class="block w-full pr-10 sm:text-sm rounded-md py-2.5 px-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               />
-              <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <div
+                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none"
+              >
                 <span class="text-gray-500 sm:text-sm">%</span>
               </div>
             </div>
@@ -201,7 +228,9 @@
 
           <div class="sm:col-span-5 flex space-x-4">
             <div class="w-1/3">
-              <label for="addLessMode" class="block text-sm font-medium text-gray-700 mb-1"
+              <label
+                for="addLessMode"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Adjustment</label
               >
               <select
@@ -217,11 +246,15 @@
               </select>
             </div>
             <div class="w-2/3">
-              <label for="oldTdsBalance" class="block text-sm font-medium text-gray-700 mb-1"
+              <label
+                for="oldTdsBalance"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Old TDS Balance</label
               >
               <div class="relative rounded-md shadow-sm">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
                   <span class="text-gray-500 sm:text-sm">₹</span>
                 </div>
                 <input
@@ -240,8 +273,12 @@
       </div>
 
       <div class="border-t border-gray-200 pt-6">
-        <div class="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-3 items-start">
-          <div class="bg-green-50 p-5 rounded-xl border border-green-200 sm:col-span-1 shadow-sm">
+        <div
+          class="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-3 items-start"
+        >
+          <div
+            class="bg-green-50 p-5 rounded-xl border border-green-200 sm:col-span-1 shadow-sm"
+          >
             <label
               for="nettPayable"
               class="block text-sm font-bold text-green-800 uppercase tracking-wider"
@@ -266,7 +303,9 @@
 
           <div class="sm:col-span-2 space-y-6">
             <div>
-              <label for="payMode" class="block text-sm font-medium text-gray-700 mb-1"
+              <label
+                for="payMode"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Pay Mode <span class="text-red-500">*</span></label
               >
               <select
@@ -288,7 +327,9 @@
             </div>
 
             <div>
-              <label for="remarks" class="block text-sm font-medium text-gray-700 mb-1"
+              <label
+                for="remarks"
+                class="block text-sm font-medium text-gray-700 mb-1"
                 >Remarks</label
               >
               <div class="mt-1">
@@ -314,7 +355,7 @@
         type="button"
         class="bg-white py-2.5 px-5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
         routerLink="/closures"
-        >
+      >
         Cancel
       </button>
       <button

@@ -34,3 +34,4 @@ export const routes: Routes = [
   { path: 'settings', component: Settings },
   { path: 'sidebar', component: SidebarComponent },
 ];
+
