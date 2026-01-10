@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "schemeName": "Standard FD",
+        "period": "12 Months",
+        "interestFrequency": "Quarterly",
+        "rateOfInterest": 7.5,
+        "calcBasis": "Daily",
+        "calculationMethod": "Simple",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Active"
+    },
+    {
+        "id": 2,
+        "schemeName": "Senior Citizen",
+        "period": "24 Months",
+        "interestFrequency": "Monthly",
+        "rateOfInterest": 8.0,
+        "calcBasis": "Monthly",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Active"
+    },
+    {
+        "id": 3,
+        "schemeName": "Reinvestment Plan",
+        "period": "36 Months",
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "calcBasis": "365 Days",
+        "calculationMethod": "Compound",
+        "calcPeriod": "",
+        "initialSkipPeriod": "",
+        "status": "Inactive"
+    }
+]

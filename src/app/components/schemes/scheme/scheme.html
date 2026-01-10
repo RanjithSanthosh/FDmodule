@@ -1,0 +1,167 @@
+<div class="w-full bg-white shadow-lg overflow-hidden flex flex-col max-h-full h-full">
+    <div
+        class="bg-slate-900 text-white px-8 py-5 border-b border-gray-200 flex-none sm:flex sm:items-center sm:justify-between z-10">
+        <div>
+            <h2 class="text-2xl font-bold leading-7 sm:truncate">Deposit Scheme Configuration</h2>
+            <p class="mt-1 text-sm text-gray-400">
+                Define interest rates, tenures, and calculation rules.
+            </p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <span
+                class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-indigo-500/20 text-indigo-100 border border-indigo-500/30">
+                System Config
+            </span>
+        </div>
+    </div>
+
+    <form (submit)="onSubmit()" class="flex flex-col flex-1 min-h-0" novalidate autocomplete="off">
+        <div class="flex-1 overflow-y-auto px-8 py-6 space-y-8">
+            <div>
+                <h3
+                    class="text-lg leading-6 font-medium text-gray-900 mb-6 pb-2 border-b border-gray-100 sticky top-0 bg-white z-10">
+                    Scheme Identity
+                </h3>
+                <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-6">
+                    <div class="sm:col-span-4">
+                        <label for="schemeName" class="block text-sm font-medium text-gray-700 mb-1">Scheme Name <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" id="schemeName" name="schemeName" [(ngModel)]="formData.schemeName"
+                            [class.border-red-300]="errors['schemeName']"
+                            [class.focus:ring-red-500]="errors['schemeName']"
+                            class="shadow-sm block w-full sm:text-sm rounded-md py-2.5 px-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                            placeholder="e.g. Senior Citizen 500 Days" />
+                        @if (errors['schemeName']) {
+                        <p class="mt-2 text-sm text-red-600 flex items-center">
+                            <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                            {{ errors['schemeName'] }}
+                        </p>
+                        }
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select id="status" name="status" [(ngModel)]="formData.status"
+                            class="shadow-sm block w-full sm:text-sm rounded-md py-2.5 px-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500">
+                            @for (stat of config.statuses; track stat) {
+                            <option [value]="stat">{{ stat }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label for="period" class="block text-sm font-medium text-gray-700 mb-1">Period / Duration <span
+                                class="text-red-500">*</span></label>
+                        <input type="text" id="period" name="period" [(ngModel)]="formData.period"
+                            [class.border-red-300]="errors['period']"
+                            class="shadow-sm block w-full sm:text-sm rounded-md py-2.5 px-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                            placeholder="e.g. 12 Months" />
+                        @if (errors['period']) {
+                        <p class="mt-2 text-sm text-red-600">{{ errors['period'] }}</p>
+                        }
+                    </div>
+
+                    <div class="sm:col-span-3">
+                        <label for="initialSkipPeriod" class="block text-sm font-medium text-gray-700 mb-1">Initial Skip
+                            Period</label>
+                        <input type="text" id="initialSkipPeriod" name="initialSkipPeriod"
+                            [(ngModel)]="formData.initialSkipPeriod"
+                            class="shadow-sm block w-full sm:text-sm border-gray-300 rounded-md py-2.5 px-3 border focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Optional" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-indigo-50/50 p-6 rounded-lg border border-indigo-100">
+                <h3 class="text-lg leading-6 font-medium text-indigo-900 mb-6">
+                    Interest Rules & Calculation
+                </h3>
+                <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-12">
+                    <div class="sm:col-span-4">
+                        <label for="rateOfInterest" class="block text-sm font-medium text-gray-700 mb-1">Rate of
+                            Interest <span class="text-red-500">*</span></label>
+                        <div class="relative rounded-md shadow-sm">
+                            <input type="number" id="rateOfInterest" name="rateOfInterest"
+                                [(ngModel)]="formData.rateOfInterest" placeholder="0.00"
+                                [class.border-red-300]="errors['rateOfInterest']"
+                                class="block w-full pr-10 sm:text-sm rounded-md py-2.5 px-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 transition-colors" />
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <span class="text-gray-500 sm:text-sm font-bold">%</span>
+                            </div>
+                        </div>
+                        @if (errors['rateOfInterest']) {
+                        <p class="mt-2 text-sm text-red-600">{{ errors['rateOfInterest'] }}</p>
+                        }
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <label for="interestFrequency" class="block text-sm font-medium text-gray-700 mb-1">Payout
+                            Frequency</label>
+                        <select id="interestFrequency" name="interestFrequency" [(ngModel)]="formData.interestFrequency"
+                            class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border shadow-sm">
+                            @for (freq of config.frequencies; track freq) {
+                            <option [value]="freq">{{ freq }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                        <label for="calculationMethod" class="block text-sm font-medium text-gray-700 mb-1">Calc
+                            Method</label>
+                        <select id="calculationMethod" name="calculationMethod" [(ngModel)]="formData.calculationMethod"
+                            class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border shadow-sm">
+                            @for (method of config.methods; track method) {
+                            <option [value]="method">{{ method }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <label for="calcBasis" class="block text-sm font-medium text-gray-700 mb-1">Calculation
+                            Basis</label>
+                        <select id="calcBasis" name="calcBasis" [(ngModel)]="formData.calcBasis"
+                            class="block w-full pl-3 pr-10 py-2.5 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border shadow-sm">
+                            @for (basis of config.bases; track basis) {
+                            <option [value]="basis">{{ basis }}</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <label for="calcPeriod" class="block text-sm font-medium text-gray-700 mb-1">Calc Period <span
+                                class="text-gray-400 font-normal">(Optional)</span></label>
+                        <input type="text" id="calcPeriod" name="calcPeriod" [(ngModel)]="formData.calcPeriod"
+                            class="block w-full sm:text-sm rounded-md py-2.5 px-3 border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-none px-8 py-5 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-4">
+            <button type="button" (click)="onCancel()"
+                class="bg-white py-2.5 px-5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                Cancel
+            </button>
+            <button type="submit" [disabled]="isSubmitting"
+                class="inline-flex justify-center py-2.5 px-6 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors items-center disabled:opacity-70">
+                @if (isSubmitting) {
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+                } @else {
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                } Save Scheme
+            </button>
+        </div>
+    </form>
+</div>

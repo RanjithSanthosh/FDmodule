@@ -1,0 +1,53 @@
+[
+    {
+        "id": 1,
+        "series": "FD Main",
+        "depositNo": "FD0001",
+        "date": "2024-01-15",
+        "partyCode": "P001",
+        "partyName": "Alice Johnson",
+        "depScheme": "Standard FD",
+        "depositAmount": 100000,
+        "period": 12,
+        "interestFrequency": "Quarterly",
+        "rateOfInterest": 7.5,
+        "matureDate": "2025-01-15",
+        "matureAmount": 107713.59,
+        "tdsPercent": 10,
+        "paymentMode": "Cheque"
+    },
+    {
+        "id": 2,
+        "series": "FD Main",
+        "depositNo": "FD0002",
+        "date": "2024-02-20",
+        "partyCode": "P002",
+        "partyName": "Bob Williams",
+        "depScheme": "Senior Citizen",
+        "depositAmount": 500000,
+        "period": 24,
+        "interestFrequency": "Monthly",
+        "rateOfInterest": 8.0,
+        "matureDate": "2026-02-20",
+        "matureAmount": 586289.44,
+        "tdsPercent": 10,
+        "paymentMode": "Bank Transfer"
+    },
+    {
+        "id": 3,
+        "series": "FD Main",
+        "depositNo": "FD0003",
+        "date": "2024-03-10",
+        "partyCode": "P003",
+        "partyName": "Charlie Davis",
+        "depScheme": "Reinvestment Plan",
+        "depositAmount": 250000,
+        "period": 36,
+        "interestFrequency": "Yearly",
+        "rateOfInterest": 7.0,
+        "matureDate": "2027-03-10",
+        "matureAmount": 306260.75,
+        "tdsPercent": 0,
+        "paymentMode": "UPI"
+    }
+]

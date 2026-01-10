@@ -1,0 +1,83 @@
+[
+    {
+        "id": 1,
+        "series": "IntPmt Main",
+        "paymentNo": "IP0001",
+        "date": "2024-01-10",
+        "depositNo": "FD001",
+        "partyName": "John Doe",
+        "depScheme": "Standard Monthly Income",
+        "interestAmount": 5000,
+        "interestRateInfo": "5%",
+        "tdsPercent": 10,
+        "tdsAmount": 500,
+        "oldTdsBalance": 150,
+        "addLessType": "Add",
+        "addLessAmount": 0,
+        "nettPayable": 4500,
+        "payMode": "Bank Transfer",
+        "remarks": "January Interest",
+        "loanDetails": {
+            "depositScheme": "Standard Monthly Income",
+            "depositDate": "2024-01-15",
+            "depositAmount": 500000,
+            "lastPaymentDate": "2024-11-15",
+            "matureDate": "2026-01-15",
+            "totalPeriod": "24 Months"
+        }
+    },
+    {
+        "id": 2,
+        "series": "IntPmt Main",
+        "paymentNo": "IP0002",
+        "date": "2024-02-10",
+        "depositNo": "FD002",
+        "partyName": "Jane Smith",
+        "depScheme": "Quarterly Payout",
+        "interestAmount": 12000,
+        "interestRateInfo": "6%",
+        "tdsPercent": 10,
+        "tdsAmount": 1200,
+        "oldTdsBalance": 0,
+        "addLessType": "Less",
+        "addLessAmount": 0,
+        "nettPayable": 10800,
+        "payMode": "Cheque",
+        "remarks": "Q1 Interest",
+        "loanDetails": {
+            "depositScheme": "Quarterly Payout",
+            "depositDate": "2023-05-10",
+            "depositAmount": 800000,
+            "lastPaymentDate": "2023-11-10",
+            "matureDate": "2025-05-10",
+            "totalPeriod": "24 Months"
+        }
+    },
+    {
+        "id": 3,
+        "series": "IntPmt Main",
+        "paymentNo": "IP0003",
+        "date": "2024-03-05",
+        "depositNo": "FD005",
+        "partyName": "Robert Brown",
+        "depScheme": "Monthly Income",
+        "interestAmount": 3500,
+        "interestRateInfo": "4.5%",
+        "tdsPercent": 0,
+        "tdsAmount": 0,
+        "oldTdsBalance": 0,
+        "addLessType": "Add",
+        "addLessAmount": 0,
+        "nettPayable": 3500,
+        "payMode": "Cash",
+        "remarks": "Small amount",
+        "loanDetails": {
+            "depositScheme": "Monthly Income",
+            "depositDate": "2023-08-20",
+            "depositAmount": 200000,
+            "lastPaymentDate": "2024-02-20",
+            "matureDate": "2025-08-20",
+            "totalPeriod": "24 Months"
+        }
+    }
+]

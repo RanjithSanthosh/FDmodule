@@ -1,0 +1,50 @@
+[
+  {
+    "id":1,
+    "series": "A",
+    "paymentNo": "PAY001",
+    "transactionDate": "2025-01-05",
+    "depositNo": "DEP1001",
+    "partyName": "Ramesh Kumar",
+    "depScheme": "Fixed Deposit",
+    "interestAmount": 4500,
+    "tdsPercent": 10,
+    "oldTdsBalance": 500,
+    "addLessMode": "Less",
+    "nettPayable": 4000,
+    "payMode": "Bank Transfer",
+    "remarks": "Monthly interest payout"
+  },
+  {
+    "id":2,
+    "series": "A",
+    "paymentNo": "PAY002",
+    "transactionDate": "2025-01-10",
+    "depositNo": "DEP1002",
+    "partyName": "Suresh Babu",
+    "depScheme": "Recurring Deposit",
+    "interestAmount": 3000,
+    "tdsPercent": null,
+    "oldTdsBalance": null,
+    "addLessMode": "Add",
+    "nettPayable": 3000,
+    "payMode": "Cash",
+    "remarks": "No TDS applicable"
+  },
+  {
+    "id":3,
+    "series": "B",
+    "paymentNo": "PAY003",
+    "transactionDate": "2025-01-15",
+    "depositNo": "DEP1003",
+    "partyName": "Anitha Devi",
+    "depScheme": "Senior Citizen FD",
+    "interestAmount": 6500,
+    "tdsPercent": 7.5,
+    "oldTdsBalance": 300,
+    "addLessMode": "Less",
+    "nettPayable": 5900,
+    "payMode": "Cheque",
+    "remarks": "Adjusted previous TDS"
+  }
+]
