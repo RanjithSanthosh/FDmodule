@@ -1,7 +1,7 @@
 <div class="w-full bg-white shadow-xl rounded-2xl overflow-hidden flex flex-col h-full border border-gray-100">
     <!-- Header -->
     <div
-        class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-8 py-5 border-b border-gray-200 flex items-center justify-between z-10 shrink-0">
+        class="bg-linear-to-r from-slate-900 to-slate-800 text-white px-8 py-5 border-b border-gray-200 flex items-center justify-between z-10 shrink-0">
         <div>
             <h2 class="text-2xl font-bold leading-7 tracking-tight">
                 Depositor Profile
@@ -50,7 +50,7 @@
                                         class="text-red-500">*</span></label>
                                 <input type="text" id="name" name="name" [(ngModel)]="formData.name"
                                     [class.border-red-300]="errors['name']"
-                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3 bg-white border border-yellow-300/50"
+                                    class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2.5 px-3 bg-white border "
                                     placeholder="Full Name"> <!-- Yellow hint from image -->
                                 @if (errors['name']) {
                                 <p class="mt-1 text-xs text-red-600">{{ errors['name'] }}</p>
@@ -266,6 +266,7 @@
                 }
             </button>
 
+            
         </div>
     </form>
 </div>

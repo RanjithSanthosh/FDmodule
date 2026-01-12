@@ -22,30 +22,42 @@ export class Scheme implements OnInit {
   isSubmitting: boolean = false;
 
   formData: DepositScheme = {
-    id: 0,
-    schemeName: '',
-    period: '',
-    interestFrequency: 'Bi Monthly',
-    rateOfInterest: null,
-    calcBasis: 'Daily',
-    calculationMethod: 'Simple',
-    calcPeriod: '',
-    initialSkipPeriod: '',
-    status: 'Active',
+    SchemeSno: 0,
+    Scheme_Name: '',
+    Dep_Period: 0,
+    Int_Frequency: 2, // Default Bi Monthly?
+    Roi: 0,
+    Calc_Basis: 1, // Default Daily
+    Calc_Method: 1, // Default Simple
+    Calc_Period: 0,
+    Intial_Skip_Period: 0,
+    Active_Status: 1,
+    Remarks: ''
   };
 
   // Configuration
   config = {
     frequencies: [
-      'Monthly',
-      'Bi Monthly',
-      'Quarterly',
-      'Half Yearly',
-      'Yearly',
+      { id: 1, label: 'Monthly' },
+      { id: 2, label: 'Bi Monthly' },
+      { id: 3, label: 'Quarterly' },
+      { id: 4, label: 'Half Yearly' },
+      { id: 5, label: 'Yearly' },
     ],
-    bases: ['Daily', 'Monthly', '365 Days', '360 Days'],
-    methods: ['Simple', 'Compound'],
-    statuses: ['Active' as const, 'Inactive' as const],
+    bases: [
+      { id: 1, label: 'Daily' },
+      { id: 2, label: 'Monthly' },
+      { id: 3, label: '365 Days' },
+      { id: 4, label: '360 Days' },
+    ],
+    methods: [
+      { id: 1, label: 'Simple' },
+      { id: 2, label: 'Compound' },
+    ],
+    statuses: [
+      { id: 1, label: 'Active' },
+      { id: 0, label: 'Inactive' },
+    ],
   };
 
   // Error State
@@ -55,7 +67,7 @@ export class Scheme implements OnInit {
     private service: SchemesService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -98,15 +110,16 @@ export class Scheme implements OnInit {
       isValid = false;
     };
 
-    if (!data.schemeName?.trim())
-      setError('schemeName', 'Scheme Name is required.');
-    if (!data.period?.trim())
-      setError('period', 'Period duration is required.');
+    if (!data.Scheme_Name?.trim())
+      setError('Scheme_Name', 'Scheme Name is required.');
 
-    if (data.rateOfInterest === null || data.rateOfInterest === undefined) {
-      setError('rateOfInterest', 'Interest rate is required.');
-    } else if (data.rateOfInterest < 0 || data.rateOfInterest > 100) {
-      setError('rateOfInterest', 'Rate must be between 0% and 100%.');
+    if (!data.Dep_Period || data.Dep_Period <= 0)
+      setError('Dep_Period', 'Period duration must be greater than 0.');
+
+    if (data.Roi === null || data.Roi === undefined) {
+      setError('Roi', 'Interest rate is required.');
+    } else if (data.Roi < 0 || data.Roi > 100) {
+      setError('Roi', 'Rate must be between 0% and 100%.');
     }
 
     return isValid;
@@ -116,22 +129,25 @@ export class Scheme implements OnInit {
     this.isSubmitting = true;
 
     if (this.validateForm()) {
-      if (this.isEditMode) {
-        this.service.update(this.formData.id, this.formData).subscribe(() => {
-          alert('Scheme updated successfully!');
+      this.service.save(this.formData).subscribe({
+        next: () => {
+          alert(this.isEditMode ? 'Scheme updated successfully!' : 'Scheme created successfully!');
           this.router.navigate(['/schemes']);
-        });
-      } else {
-        this.service.create(this.formData).subscribe(() => {
-          alert('Scheme created successfully!');
-          this.router.navigate(['/schemes']);
-        });
-      }
+        },
+        error: (err) => {
+          console.error('Save failed', err);
+          alert('Failed to save scheme.');
+          this.isSubmitting = false;
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
+      });
     } else {
       const firstError = Object.keys(this.errors)[0];
       document.getElementById(firstError)?.focus();
+      this.isSubmitting = false;
     }
-    this.isSubmitting = false;
   }
 
   onCancel() {

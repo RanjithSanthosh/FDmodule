@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar';
 import { Log } from './log';
@@ -12,5 +12,8 @@ export class AppComponent {
     constructor(public log: Log) {
     //  log.loggedin = this.loginvalue;
   }
+  // ngOninit():void{
+  //   this.log("hai");
+  // }
   title = 'fdModule';
 }

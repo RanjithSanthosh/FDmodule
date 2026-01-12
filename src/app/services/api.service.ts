@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
   // Using root relative path to access public folder directly or API proxy
-  private baseUrl = '/data';
+  private baseUrl = 'https://app.finaccsaas.in/data/RestApi.php';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   get<T>(path: string, params: any = {}): Observable<T> {
     let httpParams = new HttpParams();
@@ -21,8 +21,9 @@ export class ApiService {
     return this.http.get<T>(`${this.baseUrl}/${path}`, { params: httpParams });
   }
 
-  post<T>(path: string, body: any): Observable<T> {
-    return this.http.post<T>(`${this.baseUrl}/${path}`, body);
+  post<T>(path: string, body: any, options: any = {}): Observable<T> {
+    const url = path.startsWith('http') ? path : `${this.baseUrl}/${path}`;
+    return this.http.post<T>(url, body, options) as Observable<T>;
   }
 
   put<T>(path: string, body: any): Observable<T> {
@@ -32,4 +33,4 @@ export class ApiService {
   delete<T>(path: string): Observable<T> {
     return this.http.delete<T>(`${this.baseUrl}/${path}`);
   }
-}
+} 

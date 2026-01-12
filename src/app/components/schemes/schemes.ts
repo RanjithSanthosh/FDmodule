@@ -26,7 +26,7 @@ export class Schemes implements OnInit {
   searchTerm: string = '';
   searchTimeout: any;
 
-  constructor(private service: SchemesService, private router: Router) {}
+  constructor(private service: SchemesService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -41,9 +41,15 @@ export class Schemes implements OnInit {
         next: (data) => {
           this.records = data;
           this.currentPage = 1;
+          console.log("Schemes Data", data);
+
         },
         error: (err) => {
-          console.error('API Error:', err);
+          console.error('API Error in Component:', err);
+          // Show the error to the user if it's our thrown error
+          if (err.message) {
+            alert('Failed to load schemes: ' + err.message);
+          }
           this.records = [];
         },
       });
@@ -69,10 +75,12 @@ export class Schemes implements OnInit {
 
   onDelete(record: DepositScheme): void {
     if (
-      confirm(`Are you sure you want to delete Scheme ${record.schemeName}?`)
+      confirm(`Are you sure you want to delete Scheme ${record.Scheme_Name}?`)
     ) {
+      if (!record.SchemeSno) return;
+
       this.isLoading = true;
-      this.service.delete(record.id).subscribe(() => {
+      this.service.delete(record.SchemeSno).subscribe(() => {
         this.loadData();
       });
     }

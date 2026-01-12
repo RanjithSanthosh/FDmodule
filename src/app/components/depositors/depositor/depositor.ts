@@ -15,7 +15,7 @@ interface FormErrors {
 @Component({
     selector: 'app-depositor',
     standalone: true,
-    imports: [CommonModule, FormsModule, DecimalPipe, RouterLink],
+    imports: [CommonModule, FormsModule, RouterLink],
     templateUrl: './depositor.html',
     styleUrls: ['./depositor.css'], // Assuming css might be needed, or I can inline/omit if standard utility classes
 })
