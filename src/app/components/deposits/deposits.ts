@@ -32,7 +32,7 @@ export class Deposits implements OnInit {
   searchTerm: string = '';
   searchTimeout: any;
 
-  constructor(private service: DepositsService, private router: Router) {}
+  constructor(private service: DepositsService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -66,11 +66,11 @@ export class Deposits implements OnInit {
   }
 
   onCreateNew(): void {
-    this.router.navigate(['deposit']);
+    this.router.navigate(['/fdfrontend/deposit']);
   }
 
   onEdit(id: number): void {
-    this.router.navigate(['deposit'], { queryParams: { id: id } });
+    this.router.navigate(['fdfrontend/deposit'], { queryParams: { id: id } });
   }
 
   onDelete(record: DepositRecord): void {

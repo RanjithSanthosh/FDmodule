@@ -66,11 +66,11 @@ export class Closures implements OnInit {
   }
 
   onCreateNew(): void {
-    this.router.navigate(['closure']);
+    this.router.navigate(['fdfrontend/closure']);
   }
 
   onEdit(id: number): void {
-    this.router.navigate(['closure'], { queryParams: { id: id } });
+    this.router.navigate(['fdfrontend/closure'], { queryParams: { id: id } });
   }
 
   onDelete(record: ClosureRecord): void {

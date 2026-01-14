@@ -69,11 +69,11 @@ export class IntPayments implements OnInit {
   }
 
   onCreateNew(): void {
-    this.router.navigate(['int-payment']);
+    this.router.navigate(['fdfrontend/int-payment']);
   }
 
   onEdit(id: number): void {
-    this.router.navigate(['int-payment'], { queryParams: { id: id } });
+    this.router.navigate(['fdfrontend/int-payment'], { queryParams: { id: id } });
   }
 
   onDelete(record: InterestPaymentRecord): void {

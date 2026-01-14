@@ -61,11 +61,11 @@ export class Depositors implements OnInit {
   }
 
   onCreateNew(): void {
-    this.router.navigate(['depositor']);
+    this.router.navigate(['fdfrontend/depositor']);
   }
 
   onEdit(id: number): void {
-    this.router.navigate(['depositor'], { queryParams: { id: id } });
+    this.router.navigate(['fdfrontend/depositor'], { queryParams: { id: id } });
   }
 
   onDelete(record: DepositorRecord): void {

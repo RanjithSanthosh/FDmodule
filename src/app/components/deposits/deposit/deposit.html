@@ -1,476 +1,70 @@
-<!-- <div
-  class="w-full max-h-full mx-auto bg-white shadow-xl overflow-y-auto border border-slate-200"
->
-  <div class="bg-slate-900 px-8 py-5 flex justify-between items-center">
-    <h2 class="text-2xl font-bold text-white tracking-tight">
-      Fixed Deposit Entry
-    </h2>
-    <div
-      class="bg-blue-800/50 rounded-lg px-4 py-1 text-blue-100 text-sm font-medium border border-blue-500/30"
-    >
-      {{ deposit.date | date : 'mediumDate' }}
-    </div>
-  </div>
-
-  <form (ngSubmit)="onSubmit()" class="divide-y divide-slate-100">
-    <div class="p-8 grid grid-cols-1 md:grid-cols-12 gap-6">
-      <div class="md:col-span-12 mb-2">
-        <label
-          class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1"
-          >Search Deposit</label
-        >
-        <div class="relative">
-          <input
-            type="text"
-            class="w-full md:w-1/3 pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-            placeholder="Enter Deposit No or Name..."
-          />
-          <svg
-            class="w-5 h-5 text-slate-400 absolute left-3 top-2.5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-      </div>
-
-      <div class="md:col-span-3">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Series</label
-        >
-        <input
-          type="text"
-          [(ngModel)]="deposit.series"
-          name="series"
-          disabled
-          class="w-full bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-slate-500 cursor-not-allowed font-medium"
-        />
-      </div>
-
-      <div class="md:col-span-3">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Deposit No</label
-        >
-        <input
-          type="text"
-          [(ngModel)]="deposit.depositNo"
-          name="depositNo"
-          disabled
-          class="w-full bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-slate-500 cursor-not-allowed font-medium"
-        />
-      </div>
-
-      <div class="md:col-span-3">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Date</label
-        >
-        <input
-          type="date"
-          [(ngModel)]="deposit.date"
-          (input)="clearError('date')"
-          name="date"
-          class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-colors"
-          [class.border-red-500]="errors['date']"
-          [class.border-slate-300]="!errors['date']"
-        />
-        @if (errors['date']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['date'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-3">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Party Code</label
-        >
-        <input
-          type="text"
-          [(ngModel)]="deposit.partyCode"
-          (input)="clearError('partyCode')"
-          name="partyCode"
-          placeholder="Search..."
-          class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-colors"
-          [class.border-red-500]="errors['partyCode']"
-          [class.border-slate-300]="!errors['partyCode']"
-        />
-        @if (errors['partyCode']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['partyCode'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-12">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Party Name</label
-        >
-        <input
-          type="text"
-          [(ngModel)]="deposit.partyName"
-          (input)="clearError('partyName')"
-          name="partyName"
-          class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-colors"
-          [class.border-red-500]="errors['partyName']"
-          [class.border-slate-300]="!errors['partyName']"
-        />
-        @if (errors['partyName']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['partyName'] }}</p>
-        }
-      </div>
-    </div>
-
-    <div class="p-8 bg-slate-50/50 grid grid-cols-1 md:grid-cols-12 gap-6">
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Dep Scheme</label
-        >
-        <select
-          [(ngModel)]="deposit.depScheme"
-          (change)="clearError('depScheme')"
-          name="depScheme"
-          class="w-full border rounded-md px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 outline-none"
-          [class.border-red-500]="errors['depScheme']"
-          [class.border-slate-300]="!errors['depScheme']"
-        >
-          <option value="">Select Scheme</option>
-          @for (s of schemes; track s) {
-          <option [value]="s">{{ s }}</option>
-          }
-        </select>
-        @if (errors['depScheme']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['depScheme'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Deposit Amount</label
-        >
-        <div class="relative">
-          <span class="absolute left-3 top-2 text-slate-400 font-bold">₹</span>
-          <input
-            type="number"
-            [(ngModel)]="deposit.depositAmount"
-            (input)="clearError('depositAmount'); calculateMaturity()"
-            name="depositAmount"
-            class="w-full pl-8 border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-            [class.border-red-500]="errors['depositAmount']"
-            [class.border-slate-300]="!errors['depositAmount']"
-          />
-        </div>
-        @if (errors['depositAmount']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['depositAmount'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Period (Months)</label
-        >
-        <input
-          type="number"
-          [(ngModel)]="deposit.period"
-          (input)="clearError('period'); calculateMaturity()"
-          name="period"
-          class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-          [class.border-red-500]="errors['period']"
-          [class.border-slate-300]="!errors['period']"
-        />
-        @if (errors['period']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['period'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-blue-700 mb-1"
-          >Interest Frequency</label
-        >
-        <select
-          [(ngModel)]="deposit.interestFrequency"
-          (change)="clearError('interestFrequency'); calculateMaturity()"
-          name="interestFrequency"
-          class="w-full border-2 border-blue-200 rounded-md px-3 py-2 bg-blue-50 text-blue-800 font-medium focus:ring-2 focus:ring-blue-500 outline-none focus:border-blue-500"
-        >
-          <option value="">Select Frequency</option>
-          @for (f of frequencies; track f) {
-          <option [value]="f">{{ f }}</option>
-          }
-        </select>
-        @if (errors['interestFrequency']) {
-        <p class="text-xs text-red-500 mt-1">
-          {{ errors['interestFrequency'] }}
-        </p>
-        }
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Rate of Interest (%)</label
-        >
-        <input
-          type="number"
-          [(ngModel)]="deposit.rateOfInterest"
-          (input)="clearError('rateOfInterest'); calculateMaturity()"
-          name="rateOfInterest"
-          class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-          [class.border-red-500]="errors['rateOfInterest']"
-          [class.border-slate-300]="!errors['rateOfInterest']"
-        />
-        @if (errors['rateOfInterest']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['rateOfInterest'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >TDS %</label
-        >
-        <input
-          type="number"
-          [(ngModel)]="deposit.tdsPercent"
-          name="tdsPercent"
-          class="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-        />
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Mature Date</label
-        >
-        <input
-          type="date"
-          [(ngModel)]="deposit.matureDate"
-          (input)="clearError('matureDate')"
-          name="matureDate"
-          class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-          [class.border-red-500]="errors['matureDate']"
-          [class.border-slate-300]="!errors['matureDate']"
-        />
-        @if (errors['matureDate']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['matureDate'] }}</p>
-        }
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Mature Amount</label
-        >
-        <div class="relative">
-          <span class="absolute left-3 top-2 text-slate-400 font-bold">₹</span>
-          <input
-            type="number"
-            [(ngModel)]="deposit.matureAmount"
-            name="matureAmount"
-            readonly
-            class="w-full pl-8 bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-600 focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-        </div>
-      </div>
-
-      <div class="md:col-span-6 lg:col-span-4">
-        <label class="block text-sm font-medium text-slate-700 mb-1"
-          >Payment Mode</label
-        >
-        <select
-          [(ngModel)]="deposit.paymentMode"
-          (change)="clearError('paymentMode')"
-          name="paymentMode"
-          class="w-full border rounded-md px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 outline-none"
-          [class.border-red-500]="errors['paymentMode']"
-          [class.border-slate-300]="!errors['paymentMode']"
-        >
-          <option value="">Select Mode</option>
-          @for (m of paymentModes; track m) {
-          <option [value]="m">{{ m }}</option>
-          }
-        </select>
-        @if (errors['paymentMode']) {
-        <p class="text-xs text-red-500 mt-1">{{ errors['paymentMode'] }}</p>
-        }
-      </div>
-    </div>
-    
-    <div
-    class="flex-none px-8 py-5 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-4"
-    >
-    <button
-    type="button"
-        class="bg-white py-2.5 px-5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-        routerLink="/deposits"
-        >
-        Cancel
-      </button>
-      <button
-      type="submit"
-        class="inline-flex justify-center py-2.5 px-6 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors items-center"
-      >
-      <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-          >
-          <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        Process Closure
-      </button>
-    </div>
-  </form>
-</div> -->
-
-<!-- <div class="px-8 py-5 bg-slate-50 flex items-center justify-end gap-3">
-      <button
-        type="button"
-        class="px-5 py-2 text-slate-600 font-medium hover:text-slate-800 transition-colors"
-      >
-        Clear
-      </button>
-      <button
-        type="submit"
-        class="px-6 py-2 bg-slate-800 text-white font-medium rounded-lg shadow-md hover:bg-slate-900 active:transform active:scale-95 transition-all"
-      >
-        Save Deposit
-      </button>
-    </div> -->
-
-<div
-  class="flex flex-col h-screen w-full mx-auto bg-white shadow-xl border border-slate-200 overflow-hidden"
->
-  <div
-    class="flex-none bg-slate-900 px-8 py-5 flex justify-between items-center z-10"
-  >
+<div class="flex flex-col h-screen w-full mx-auto bg-white shadow-xl border border-slate-200 overflow-hidden">
+  <div class="flex-none bg-slate-900 px-8 py-5 flex justify-between items-center z-10">
     <div>
       <h2 class="text-2xl font-bold text-white tracking-tight">
         Fixed Deposit Entry
       </h2>
     </div>
-    <div
-      class="bg-blue-800/50 rounded-lg px-4 py-1 text-blue-100 text-sm font-medium border border-blue-500/30"
-    >
+    <div class="bg-blue-800/50 rounded-lg px-4 py-1 text-blue-100 text-sm font-medium border border-blue-500/30">
       {{ deposit.date | date : 'mediumDate' }}
     </div>
   </div>
 
-  <form
-    (ngSubmit)="onSubmit()"
-    class="flex flex-col flex-1 min-h-0 divide-y divide-slate-100"
-    novalidate
-  >
+  <form (ngSubmit)="onSubmit()" class="flex flex-col flex-1 min-h-0 divide-y divide-slate-100" novalidate>
     <div class="flex-1 overflow-y-auto">
       <div class="p-8 grid grid-cols-1 md:grid-cols-12 gap-6">
         <div class="md:col-span-12 mb-2">
-          <label
-            class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1"
-            >Search Deposit</label
-          >
+          <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Search Deposit</label>
           <div class="relative">
-            <input
-              type="text"
+            <input type="text"
               class="w-full md:w-1/3 pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-              placeholder="Enter Deposit No or Name..."
-            />
-            <svg
-              class="w-5 h-5 text-slate-400 absolute left-3 top-2.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
+              placeholder="Enter Deposit No or Name..." />
+            <svg class="w-5 h-5 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
         </div>
 
         <div class="md:col-span-3">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Series</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="deposit.series"
-            name="series"
-            disabled
-            class="w-full bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-slate-500 cursor-not-allowed font-medium"
-          />
+          <label class="block text-sm font-medium text-slate-700 mb-1">Series</label>
+          <input type="text" [(ngModel)]="deposit.series" name="series" disabled
+            class="w-full bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-slate-500 cursor-not-allowed font-medium" />
         </div>
 
         <div class="md:col-span-3">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Deposit No</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="deposit.depositNo"
-            name="depositNo"
-            disabled
-            class="w-full bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-slate-500 cursor-not-allowed font-medium"
-          />
+          <label class="block text-sm font-medium text-slate-700 mb-1">Deposit No</label>
+          <input type="text" [(ngModel)]="deposit.depositNo" name="depositNo" disabled
+            class="w-full bg-slate-100 border border-slate-200 rounded-md px-3 py-2 text-slate-500 cursor-not-allowed font-medium" />
         </div>
 
         <div class="md:col-span-3">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Date</label
-          >
-          <input
-            type="date"
-            [(ngModel)]="deposit.date"
-            (input)="clearError('date')"
-            name="date"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Date</label>
+          <input type="date" [(ngModel)]="deposit.date" (input)="clearError('date')" name="date"
             class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none transition-colors"
-            [class.border-red-500]="errors['date']"
-            [class.border-slate-300]="!errors['date']"
-          />
+            [class.border-red-500]="errors['date']" [class.border-slate-300]="!errors['date']" />
           @if (errors['date']) {
           <p class="text-xs text-red-500 mt-1">{{ errors['date'] }}</p>
           }
         </div>
 
         <div class="md:col-span-3">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Party Code</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="deposit.partyCode"
-            (input)="clearError('partyCode')"
-            name="partyCode"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Party Code</label>
+          <input type="text" [(ngModel)]="deposit.partyCode" (input)="clearError('partyCode')" name="partyCode"
             placeholder="Search..."
             class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-            [class.border-red-500]="errors['partyCode']"
-            [class.border-slate-300]="!errors['partyCode']"
-          />
+            [class.border-red-500]="errors['partyCode']" [class.border-slate-300]="!errors['partyCode']" />
           @if (errors['partyCode']) {
           <p class="text-xs text-red-500 mt-1">{{ errors['partyCode'] }}</p>
           }
         </div>
 
         <div class="md:col-span-12">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Party Name</label
-          >
-          <input
-            type="text"
-            [(ngModel)]="deposit.partyName"
-            (input)="clearError('partyName')"
-            name="partyName"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Party Name</label>
+          <input type="text" [(ngModel)]="deposit.partyName" (input)="clearError('partyName')" name="partyName"
             class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-            [class.border-red-500]="errors['partyName']"
-            [class.border-slate-300]="!errors['partyName']"
-          />
+            [class.border-red-500]="errors['partyName']" [class.border-slate-300]="!errors['partyName']" />
           @if (errors['partyName']) {
           <p class="text-xs text-red-500 mt-1">{{ errors['partyName'] }}</p>
           }
@@ -479,17 +73,10 @@
 
       <div class="p-8 bg-slate-50/50 grid grid-cols-1 md:grid-cols-12 gap-6">
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Dep Scheme</label
-          >
-          <select
-            [(ngModel)]="deposit.depScheme"
-            (change)="clearError('depScheme')"
-            name="depScheme"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Dep Scheme</label>
+          <select [(ngModel)]="deposit.depScheme" (change)="clearError('depScheme')" name="depScheme"
             class="w-full border rounded-md px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="errors['depScheme']"
-            [class.border-slate-300]="!errors['depScheme']"
-          >
+            [class.border-red-500]="errors['depScheme']" [class.border-slate-300]="!errors['depScheme']">
             <option value="">Select Scheme</option>
             @for (s of schemes; track s) {
             <option [value]="s">{{ s }}</option>
@@ -498,50 +85,28 @@
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Deposit Amount</label
-          >
+          <label class="block text-sm font-medium text-slate-700 mb-1">Deposit Amount</label>
           <div class="relative">
-            <span class="absolute left-3 top-2 text-slate-400 font-bold"
-              >₹</span
-            >
-            <input
-              type="number"
-              [(ngModel)]="deposit.depositAmount"
-              (input)="clearError('depositAmount'); calculateMaturity()"
-              name="depositAmount"
+            <span class="absolute left-3 top-2 text-slate-400 font-bold">₹</span>
+            <input type="number" [(ngModel)]="deposit.depositAmount"
+              (input)="clearError('depositAmount'); calculateMaturity()" name="depositAmount"
               class="w-full pl-8 border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500"
-              [class.border-red-500]="errors['depositAmount']"
-              [class.border-slate-300]="!errors['depositAmount']"
-            />
+              [class.border-red-500]="errors['depositAmount']" [class.border-slate-300]="!errors['depositAmount']" />
           </div>
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Period (Months)</label
-          >
-          <input
-            type="number"
-            [(ngModel)]="deposit.period"
-            (input)="clearError('period'); calculateMaturity()"
-            name="period"
-            class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="errors['period']"
-            [class.border-slate-300]="!errors['period']"
-          />
+          <label class="block text-sm font-medium text-slate-700 mb-1">Period (Months)</label>
+          <input type="number" [(ngModel)]="deposit.period" (input)="clearError('period'); calculateMaturity()"
+            name="period" class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500"
+            [class.border-red-500]="errors['period']" [class.border-slate-300]="!errors['period']" />
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-blue-700 mb-1"
-            >Interest Frequency</label
-          >
-          <select
-            [(ngModel)]="deposit.interestFrequency"
-            (change)="clearError('interestFrequency'); calculateMaturity()"
-            name="interestFrequency"
-            class="w-full border-2 border-blue-200 rounded-md px-3 py-2 bg-blue-50 text-blue-800 font-medium focus:ring-2 focus:ring-blue-500 outline-none"
-          >
+          <label class="block text-sm font-medium text-blue-700 mb-1">Interest Frequency</label>
+          <select [(ngModel)]="deposit.interestFrequency"
+            (change)="clearError('interestFrequency'); calculateMaturity()" name="interestFrequency"
+            class="w-full border-2 border-blue-200 rounded-md px-3 py-2 bg-blue-50 text-blue-800 font-medium focus:ring-2 focus:ring-blue-500 outline-none">
             <option value="">Select Frequency</option>
             @for (f of frequencies; track f) {
             <option [value]="f">{{ f }}</option>
@@ -550,77 +115,40 @@
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Rate of Interest (%)</label
-          >
-          <input
-            type="number"
-            [(ngModel)]="deposit.rateOfInterest"
-            (input)="clearError('rateOfInterest'); calculateMaturity()"
-            name="rateOfInterest"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Rate of Interest (%)</label>
+          <input type="number" [(ngModel)]="deposit.rateOfInterest"
+            (input)="clearError('rateOfInterest'); calculateMaturity()" name="rateOfInterest"
             class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="errors['rateOfInterest']"
-            [class.border-slate-300]="!errors['rateOfInterest']"
-          />
+            [class.border-red-500]="errors['rateOfInterest']" [class.border-slate-300]="!errors['rateOfInterest']" />
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >TDS %</label
-          >
-          <input
-            type="number"
-            [(ngModel)]="deposit.tdsPercent"
-            name="tdsPercent"
-            class="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500"
-          />
+          <label class="block text-sm font-medium text-slate-700 mb-1">TDS %</label>
+          <input type="number" [(ngModel)]="deposit.tdsPercent" name="tdsPercent"
+            class="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500" />
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Mature Date</label
-          >
-          <input
-            type="date"
-            [(ngModel)]="deposit.matureDate"
-            (input)="clearError('matureDate')"
-            name="matureDate"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Mature Date</label>
+          <input type="date" [(ngModel)]="deposit.matureDate" (input)="clearError('matureDate')" name="matureDate"
             class="w-full border rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500"
-            [class.border-red-500]="errors['matureDate']"
-            [class.border-slate-300]="!errors['matureDate']"
-          />
+            [class.border-red-500]="errors['matureDate']" [class.border-slate-300]="!errors['matureDate']" />
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Mature Amount</label
-          >
+          <label class="block text-sm font-medium text-slate-700 mb-1">Mature Amount</label>
           <div class="relative">
-            <span class="absolute left-3 top-2 text-slate-400 font-bold"
-              >₹</span
-            >
-            <input
-              type="number"
-              [(ngModel)]="deposit.matureAmount"
-              name="matureAmount"
-              readonly
-              class="w-full pl-8 bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-600 font-semibold"
-            />
+            <span class="absolute left-3 top-2 text-slate-400 font-bold">₹</span>
+            <input type="number" [(ngModel)]="deposit.matureAmount" name="matureAmount" readonly
+              class="w-full pl-8 bg-slate-50 border border-slate-300 rounded-md px-3 py-2 text-slate-600 font-semibold" />
           </div>
         </div>
 
         <div class="md:col-span-6 lg:col-span-4">
-          <label class="block text-sm font-medium text-slate-700 mb-1"
-            >Payment Mode</label
-          >
-          <select
-            [(ngModel)]="deposit.paymentMode"
-            (change)="clearError('paymentMode')"
-            name="paymentMode"
+          <label class="block text-sm font-medium text-slate-700 mb-1">Payment Mode</label>
+          <select [(ngModel)]="deposit.paymentMode" (change)="clearError('paymentMode')" name="paymentMode"
             class="w-full border rounded-md px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 outline-none"
-            [class.border-red-500]="errors['paymentMode']"
-            [class.border-slate-300]="!errors['paymentMode']"
-          >
+            [class.border-red-500]="errors['paymentMode']" [class.border-slate-300]="!errors['paymentMode']">
             <option value="">Select Mode</option>
             @for (m of paymentModes; track m) {
             <option [value]="m">{{ m }}</option>
@@ -630,32 +158,17 @@
       </div>
     </div>
     <div
-      class="flex-none px-8 py-5 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]"
-    >
-      <button
-        type="button"
+      class="flex-none px-8 py-5 bg-gray-50 border-t border-gray-200 flex items-center justify-end space-x-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+      <button type="button"
         class="bg-white py-2.5 px-5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-        routerLink="/deposits"
-      >
+        routerLink="/fdfrontend/deposits">
         Cancel
       </button>
-      <button
-        type="submit"
-        class="inline-flex justify-center py-2.5 px-6 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors items-center"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          stroke-width="2"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
+      <button type="submit"
+        class="inline-flex justify-center py-2.5 px-6 border border-transparent shadow-sm text-sm font-bold rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         Process Deposit
       </button>

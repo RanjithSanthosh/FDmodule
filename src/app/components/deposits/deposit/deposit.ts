@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router,RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DepositsService, DepositRecord } from '../deposits.service';
 
 export interface FormErrors {
@@ -11,7 +11,7 @@ export interface FormErrors {
 @Component({
   selector: 'app-deposit',
   standalone: true,
-  imports: [CommonModule, FormsModule,RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './deposit.html',
   styleUrl: './deposit.css',
 })
@@ -46,7 +46,7 @@ export class Deposit implements OnInit {
     private service: DepositsService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -77,7 +77,7 @@ export class Deposit implements OnInit {
             this.deposit.matureDate = this.deposit.matureDate.split('T')[0];
         } else {
           alert('Record not found');
-          this.router.navigate(['/deposit']);
+          this.router.navigate(['/fdfrontend/deposits']);
         }
         this.isLoading = false;
       },
@@ -145,12 +145,12 @@ export class Deposit implements OnInit {
       if (this.isEditMode) {
         this.service.update(this.deposit.id, this.deposit).subscribe(() => {
           alert('Deposit Updated Successfully!');
-          this.router.navigate(['/deposits']); // Should be list, will update later
+          this.router.navigate(['/fdfrontend/deposits']); // Should be list
         });
       } else {
         this.service.create(this.deposit).subscribe(() => {
           alert('Deposit Created Successfully!');
-          this.router.navigate(['/deposits']); // Should be list
+          this.router.navigate(['/fdfrontend/deposits']); // Should be list
         });
       }
     } else {
@@ -159,7 +159,7 @@ export class Deposit implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/deposits']); // Should be list
+    this.router.navigate(['/fdfrontend/deposits']); // Should be list
   }
 
   clearError(field: string) {

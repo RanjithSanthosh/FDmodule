@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { tap, map } from 'rxjs/operators';
-import { Log } from '../../log';
 import { ApiService } from '../../services/api.service';
 
 @Injectable({
@@ -11,7 +10,7 @@ import { ApiService } from '../../services/api.service';
 export class AuthService {
     private apiUrl = '/auth/CheckUserandgetCompanies';
 
-    constructor(private api: ApiService, private logService: Log) { }
+    constructor(private api: ApiService) { }
 
     login(App_Login: string, App_Pwd: string): Observable<any> {
         // Save credentials temporarily as requested by dynamic API requirements
@@ -19,7 +18,7 @@ export class AuthService {
         localStorage.setItem('app_pwd_temp', App_Pwd);
 
         const body = new HttpParams()
-            .set('DbName', 'demoaccount')
+            .set('ClientCode', 'demoaccount')
             .set('data', JSON.stringify({
                 App_Login,
                 App_Pwd
@@ -46,7 +45,6 @@ export class AuthService {
                 console.log('Login Response:', response);
 
                 if (response && response.queryStatus === 1) {
-                    this.logService.loggedin = true;
                     // Save the entire response
                     localStorage.setItem('currentUser', JSON.stringify(response));
 
@@ -60,7 +58,6 @@ export class AuthService {
     }
 
     logout() {
-        this.logService.loggedin = false;
         localStorage.removeItem('currentUser');
         localStorage.removeItem('authToken');
     }

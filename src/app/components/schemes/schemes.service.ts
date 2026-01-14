@@ -21,6 +21,9 @@ export interface DepositScheme {
   CompSno?: number;
 }
 
+
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -72,31 +75,22 @@ export class SchemesService {
     return response;
   }
 
-  getAll(searchTerm: string = ''): Observable<DepositScheme[]> {
-    let compSno = 0;
+  getAll(): Observable<DepositScheme[]> {
+    let compSno = 1;
     // let branchSno = 0;
 
     let appPwd = '';
     try {
       appPwd = localStorage.getItem('app_pwd_temp') || '';
-
-      const userStr = localStorage.getItem('currentUser');
-      if (userStr) {
-        const user = JSON.parse(userStr);
-        if (user.apiData && user.apiData.CompInfo && user.apiData.CompInfo.length > 0) {
-          compSno = user.apiData.CompInfo[0].CompSno;
-        }
-      }
     } catch (e) {
       console.error('Error parsing user info', e);
     }
 
     const body = new HttpParams()
-      .set('DbName', 'demoaccount')
+      .set('ClientCode', 'demoaccount')
       .set('data', JSON.stringify({
-        SchemeSno: 0,
+        SchemeSno: 3,
         CompSno: compSno,
-        App_Pwd: appPwd
       }));
 
     return this.api.post(this.getEndpoint, body, {
@@ -107,26 +101,33 @@ export class SchemesService {
         const response = this.parseResponse(rawResponse);
         if (response && response.queryStatus === 1 && response.apiData) {
           let data = [];
-          if (Array.isArray(response.apiData)) {
-            data = response.apiData;
-          } else if (response.apiData && Array.isArray(response.apiData.Schemes)) {
-            data = response.apiData.Schemes;
-            
-          } else {
-            // Fallback: try to find an array in apiData
-            const keys = Object.keys(response.apiData);
-            for (const key of keys) {
-              if (Array.isArray(response.apiData[key])) {
-                data = response.apiData[key];
-                break;
-              }
+
+          let apiDataParsed = response.apiData;
+          // Parse apiData if it is a string (double encoded JSON)
+          if (typeof apiDataParsed === 'string') {
+            try {
+              apiDataParsed = JSON.parse(apiDataParsed);
+            } catch (e) {
+              console.error('Error parsing apiData string', e);
+              apiDataParsed = [];
             }
           }
-          if (searchTerm) {
-            const lowerTerm = searchTerm.toLowerCase();
-            return data.filter((r: DepositScheme) =>
-              r.Scheme_Name.toLowerCase().includes(lowerTerm)
-            );
+
+          if (Array.isArray(apiDataParsed)) {
+            data = apiDataParsed;
+          } else if (apiDataParsed && Array.isArray(apiDataParsed.Schemes)) {
+            data = apiDataParsed.Schemes;
+          } else {
+            // Try to find array values in object
+            if (apiDataParsed && typeof apiDataParsed === 'object') {
+              const keys = Object.keys(apiDataParsed);
+              for (const key of keys) {
+                if (Array.isArray(apiDataParsed[key])) {
+                  data = apiDataParsed[key];
+                  break;
+                }
+              }
+            }
           }
           return data;
         }
@@ -143,25 +144,26 @@ export class SchemesService {
 
   save(data: DepositScheme): Observable<any> {
     const body = new HttpParams()
-      .set('DbName', 'demoaccount')
+      .set('ClientCode', 'demoaccount')
       .set('data', JSON.stringify(data));
-
+    console.log("Data sending is:",body);
+    
     return this.api.post(this.saveEndpoint, body, {
       headers: this.getHeaders(),
       responseType: 'text'
-    }).pipe(map(this.parseResponse));
+    }).pipe(map((res) => this.parseResponse(res)));
   }
 
   delete(id: number): Observable<any> {
     const body = new HttpParams()
-      .set('DbName', 'demoaccount')
+      .set('ClientCode', 'demoaccount')
       .set('data', JSON.stringify({ SchemeSno: id }));
 
     return this.api.post(this.deleteEndpoint, body, {
       headers: this.getHeaders(),
       responseType: 'text'
-    }).pipe(map(this.parseResponse));
+    }).pipe(map((res) => this.parseResponse(res)));
 
-  //   map(response => this.parseResponse(response))
-   }
+    //   map(response => this.parseResponse(response))
+  }
 }

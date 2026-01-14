@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Log } from '../../log';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -19,7 +18,7 @@ export class LoginComponent {
   errorMessage: string = "";
   isLoading: boolean = false;
 
-  constructor(private router: Router, public log: Log, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService) {
 
   }
 
@@ -33,16 +32,26 @@ export class LoginComponent {
     this.isLoading = true;
     this.errorMessage = "";
 
+    // if(this.Username=='admin' && this.Password=='admin'){
+    //   this.router.navigate(['fdfrontend'])
+    // }
+    // else{
+    //   this.errorMessage='invalid crediential';
+    //   this.isLoading = false;
+    // }
+
+
     this.authService.login(this.Username, this.Password).subscribe({
       next: (data) => {
         this.isLoading = false;
 
-        if (data && data.status === 'ERROR') { // Example check, adjust based on actual API
-          this.errorMessage = data.message || "Login failed.";
-          this.log.loggedin = false; // Revert if service set it blindly
-        } else {
-          this.router.navigate(['dashboard']);
+        // Strict check for successful queryStatus from API
+        if (data && data.queryStatus === 1) {
+          this.router.navigate(['fdfrontend']);
           console.log("Logged in successfully");
+        } else {
+          // Login failed despite 200 OK from server
+          this.errorMessage = (data && data.message) ? data.message : "Invalid credentials. Please try again.";
         }
       },
       error: (error) => {

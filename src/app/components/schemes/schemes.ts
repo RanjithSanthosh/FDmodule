@@ -16,6 +16,7 @@ import { SchemesService, DepositScheme } from './schemes.service';
 export class Schemes implements OnInit {
   // State
   records: DepositScheme[] = [];
+  allRecords: DepositScheme[] = [];
   isLoading: boolean = false;
 
   // Pagination State
@@ -35,12 +36,12 @@ export class Schemes implements OnInit {
   loadData(): void {
     this.isLoading = true;
     this.service
-      .getAll(this.searchTerm)
+      .getAll()
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (data) => {
-          this.records = data;
-          this.currentPage = 1;
+          this.allRecords = data;
+          this.applyFilter();
           console.log("Schemes Data", data);
 
         },
@@ -51,26 +52,35 @@ export class Schemes implements OnInit {
             alert('Failed to load schemes: ' + err.message);
           }
           this.records = [];
+          this.allRecords = [];
         },
       });
+  }
+
+  applyFilter(): void {
+    if (this.searchTerm) {
+      const lowerTerm = this.searchTerm.toLowerCase();
+      this.records = this.allRecords.filter((r) =>
+        r.Scheme_Name.toLowerCase().includes(lowerTerm)
+      );
+    } else {
+      this.records = [...this.allRecords];
+    }
+    this.currentPage = 1;
   }
 
   // --- Actions ---
 
   onSearchChange(): void {
-    if (this.searchTimeout) clearTimeout(this.searchTimeout);
-
-    this.searchTimeout = setTimeout(() => {
-      this.loadData();
-    }, 300);
+    this.applyFilter();
   }
 
   onCreateNew(): void {
-    this.router.navigate(['scheme']);
+    this.router.navigate(['fdfrontend/scheme']);
   }
 
   onEdit(id: number): void {
-    this.router.navigate(['scheme'], { queryParams: { id: id } });
+    this.router.navigate(['fdfrontend/scheme'], { queryParams: { id: id } });
   }
 
   onDelete(record: DepositScheme): void {

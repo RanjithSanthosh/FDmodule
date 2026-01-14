@@ -8,10 +8,12 @@ export interface FormErrors {
   [key: string]: string | null;
 }
 
+import { IntToDatePipe } from '../../../pipes/int-to-date.pipe';
+
 @Component({
   selector: 'app-deposit-scheme',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, IntToDatePipe],
   templateUrl: './scheme.html',
   styleUrl: './scheme.css',
 })
@@ -25,14 +27,15 @@ export class Scheme implements OnInit {
     SchemeSno: 0,
     Scheme_Name: '',
     Dep_Period: 0,
-    Int_Frequency: 2, // Default Bi Monthly?
+    Int_Frequency: 2, // Default Bi Monthly
     Roi: 0,
     Calc_Basis: 1, // Default Daily
     Calc_Method: 1, // Default Simple
     Calc_Period: 0,
     Intial_Skip_Period: 0,
     Active_Status: 1,
-    Remarks: ''
+    Remarks: '',
+    Create_Date: 0
   };
 
   // Configuration
@@ -77,6 +80,11 @@ export class Scheme implements OnInit {
         this.loadRecord(+id);
       }
     });
+
+    // Initialize date if new
+    if (!this.formData.Create_Date) {
+      this.formData.Create_Date = this.DateToInt(new Date());
+    }
   }
 
   loadRecord(id: number): void {
@@ -96,6 +104,22 @@ export class Scheme implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  // --- Helpers ---
+  DateToInt(inputDate: Date): number {
+    let month: string = (inputDate.getMonth() + 1).toString();
+    let day: string = inputDate.getDate().toString();
+    if (month.length === 1) { month = "0" + month }
+    if (day.length === 1) { day = "0" + day }
+    return parseInt(inputDate.getFullYear().toString() + month + day);
+  }
+
+  onDateChange(event: any): void {
+    const value = event.target.value;
+    if (value) {
+      this.formData.Create_Date = this.DateToInt(new Date(value));
+    }
   }
 
   // --- Actions ---
@@ -129,10 +153,19 @@ export class Scheme implements OnInit {
     this.isSubmitting = true;
 
     if (this.validateForm()) {
+      // Force required backend values
+      this.formData.UserSno = 1;
+      this.formData.CompSno = 1;
+
+      // Handle Date if missing (should be handled by init or input now, but safety check)
+      if (!this.formData.Create_Date) {
+        this.formData.Create_Date = this.DateToInt(new Date());
+      }
+
       this.service.save(this.formData).subscribe({
         next: () => {
           alert(this.isEditMode ? 'Scheme updated successfully!' : 'Scheme created successfully!');
-          this.router.navigate(['/schemes']);
+          this.router.navigate(['/fdfrontend/schemes']);
         },
         error: (err) => {
           console.error('Save failed', err);
@@ -151,6 +184,6 @@ export class Scheme implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/schemes']);
+    this.router.navigate(['/fdfrontend/schemes']);
   }
 }
