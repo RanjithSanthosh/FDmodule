@@ -89,7 +89,7 @@ export class SchemesService {
     const body = new HttpParams()
       .set('ClientCode', 'demoaccount')
       .set('data', JSON.stringify({
-        SchemeSno: 3,
+        SchemeSno: 0,
         CompSno: compSno,
       }));
 
