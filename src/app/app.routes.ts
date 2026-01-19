@@ -12,8 +12,8 @@ import { CustomerHistory } from './components/customer-history/customer-history'
 import { DepositHistory } from './components/deposit-history/deposit-history';
 import { Depositors } from './components/depositors/depositors';
 import { Depositor } from './components/depositors/depositor/depositor';
-import { Schemes } from './components/schemes/schemes';
-import { Scheme } from './components/schemes/scheme/scheme';
+import { Schemes } from './components/main-comp/schemes/schemes';
+import { Scheme } from './components/main-comp/schemes/scheme/scheme';
 import { Settings } from './components/settings/settings';
 import { SidebarComponent } from './components/sidebar/sidebar';
 import { FDfrontendComponent } from './fdfrontend/fdfrontend.component';
@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'fdfrontend',
     component: FDfrontendComponent,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboardComponent },

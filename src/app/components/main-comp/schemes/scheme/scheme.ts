@@ -8,7 +8,7 @@ export interface FormErrors {
   [key: string]: string | null;
 }
 
-import { IntToDatePipe } from '../../../pipes/int-to-date.pipe';
+import { IntToDatePipe } from '../../../../pipes/int-to-date.pipe';
 
 @Component({
   selector: 'app-deposit-scheme',
